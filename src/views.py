@@ -8,7 +8,7 @@ categories = {}
 records = {}
 
 
-@app.route('/healthcheck', methods=['GET'])
+@app.get('/healthcheck')
 def healthcheck():
     current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     health_status = {'status': 'OK', 'date': current_date}
