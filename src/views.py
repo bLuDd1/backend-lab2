@@ -5,6 +5,7 @@ from datetime import datetime
 
 users = {}
 categories = {}
+records = {}
 
 
 @app.route('/healthcheck', methods=['GET'])
@@ -58,6 +59,51 @@ def create_category():
 def delete_category(category_id):
     del categories[category_id]
     return f"Category deleted by {category_id} id"
+
+
+@app.get('/record/record_id')
+def get_record(record_id):
+    record = records[record_id]
+    return record
+
+
+@app.delete('/record/record_id')
+def delete_record(record_id):
+    del records[record_id]
+    return f"Record deleted by {record_id} id"
+
+
+@app.post('/record')
+def create_record():
+    record_id = uuid.uuid4().hex
+    user_id = request.args.get("user_id")
+    category_id = request.args.get("category_id")
+    created_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    cost_amount = request.args.get("cost_amount")
+    record = {
+        "record_id": record_id,
+        "user_id": user_id,
+        "category_id": category_id,
+        "created_time": created_time,
+        "cost_amount": cost_amount
+    }
+    records[record_id] = record
+    return record
+
+
+@app.get('/record')
+def get_records():
+    user_id = request.args.get("user_id")
+    category_id = request.args.get("category_id")
+
+    if not user_id and not category_id:
+        return jsonify(error='Both user_id and category_id are required'), 400
+
+    filtered_records = [record for record in records.values() if
+                        (not user_id or record['user_id'] == user_id) and
+                        (not category_id or record['category_id'] == category_id)]
+
+    return filtered_records
 
 
 if __name__ == '__main__':
