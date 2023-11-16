@@ -23,7 +23,7 @@ def get_user(user_id):
 @app.delete('/user/<user_id>')
 def delete_user(user_id):
     del users[user_id]
-    return ""
+    return f"Category deleted by {user_id} id"
 
 
 @app.post('/user')
