@@ -70,7 +70,7 @@ def delete_category(category_id):
         return f"Category deleted by {category_id} id"
 
 
-@app.get('/record/record_id')
+@app.get('/record/<record_id>')
 def get_record(record_id):
     if record_id not in records:
         return jsonify(error=f'Record with {record_id} id does not exist'), 404
@@ -79,7 +79,7 @@ def get_record(record_id):
         return record
 
 
-@app.delete('/record/record_id')
+@app.delete('/record/<record_id>')
 def delete_record(record_id):
     if record_id not in records:
         return jsonify(error=f'Record with {record_id} id does not exist'), 404
