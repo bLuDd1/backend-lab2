@@ -17,14 +17,20 @@ def healthcheck():
 
 @app.get('/user/<user_id>')
 def get_user(user_id):
-    user = users[user_id]
-    return user
+    if user_id not in users:
+        return jsonify(error=f'User with {user_id} id does not exist'), 404
+    else:
+        user = users[user_id]
+        return user
 
 
 @app.delete('/user/<user_id>')
 def delete_user(user_id):
-    del users[user_id]
-    return f"Category deleted by {user_id} id"
+    if user_id not in users:
+        return jsonify(error=f'User with {user_id} id does not exist'), 404
+    else:
+        del users[user_id]
+        return f"User deleted by {user_id} id"
 
 
 @app.post('/user')
@@ -57,20 +63,29 @@ def create_category():
 
 @app.delete('/category/<category_id>')
 def delete_category(category_id):
-    del categories[category_id]
-    return f"Category deleted by {category_id} id"
+    if category_id not in categories:
+        return jsonify(error=f'Category with {category_id} id does not exist'), 404
+    else:
+        del categories[category_id]
+        return f"Category deleted by {category_id} id"
 
 
 @app.get('/record/record_id')
 def get_record(record_id):
-    record = records[record_id]
-    return record
+    if record_id not in records:
+        return jsonify(error=f'Record with {record_id} id does not exist'), 404
+    else:
+        record = records[record_id]
+        return record
 
 
 @app.delete('/record/record_id')
 def delete_record(record_id):
-    del records[record_id]
-    return f"Record deleted by {record_id} id"
+    if record_id not in records:
+        return jsonify(error=f'Record with {record_id} id does not exist'), 404
+    else:
+        del records[record_id]
+        return f"Record deleted by {record_id} id"
 
 
 @app.post('/record')
