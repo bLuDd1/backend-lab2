@@ -35,9 +35,9 @@ def delete_user(user_id):
 
 @app.post('/user')
 def create_user():
-    user_data = request.args.get("data")
+    user_name = request.args.get("name")
     user_id = uuid.uuid4().hex
-    user = {"id": user_id, "data": user_data}
+    user = {"id": user_id, "name": user_name}
     users[user_id] = user
     return user
 
@@ -54,9 +54,9 @@ def get_category():
 
 @app.post('/category')
 def create_category():
-    category_data = request.args.get("data")
+    category_name = request.args.get("name")
     category_id = uuid.uuid4().hex
-    category = {"id": category_id, "data": category_data}
+    category = {"id": category_id, "name": category_name}
     categories[category_id] = category
     return category
 
