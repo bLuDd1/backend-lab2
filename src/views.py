@@ -21,7 +21,7 @@ def get_user(user_id):
         return jsonify(error=f'User with {user_id} id does not exist'), 404
     else:
         user = users[user_id]
-        return user
+        return jsonify(user)
 
 
 @app.delete('/user/<user_id>')
@@ -39,7 +39,7 @@ def create_user():
     user_id = uuid.uuid4().hex
     user = {"id": user_id, "name": user_name}
     users[user_id] = user
-    return user
+    return jsonify(user)
 
 
 @app.get('/users')
@@ -58,7 +58,7 @@ def create_category():
     category_id = uuid.uuid4().hex
     category = {"id": category_id, "name": category_name}
     categories[category_id] = category
-    return category
+    return jsonify(category)
 
 
 @app.delete('/category/<category_id>')
@@ -76,7 +76,7 @@ def get_record(record_id):
         return jsonify(error=f'Record with {record_id} id does not exist'), 404
     else:
         record = records[record_id]
-        return record
+        return jsonify(record)
 
 
 @app.delete('/record/<record_id>')
@@ -85,7 +85,7 @@ def delete_record(record_id):
         return jsonify(error=f'Record with {record_id} id does not exist'), 404
     else:
         del records[record_id]
-        return f"Record deleted by {record_id} id"
+        return jsonify(f"Record deleted by {record_id} id")
 
 
 @app.post('/record')
@@ -103,7 +103,7 @@ def create_record():
         "cost_amount": cost_amount
     }
     records[record_id] = record
-    return record
+    return jsonify(record)
 
 
 @app.get('/record')
@@ -118,7 +118,7 @@ def get_records():
                         (not user_id or record['user_id'] == user_id) and
                         (not category_id or record['category_id'] == category_id)]
 
-    return filtered_records
+    return jsonify({'data': filtered_records})
 
 
 if __name__ == '__main__':
